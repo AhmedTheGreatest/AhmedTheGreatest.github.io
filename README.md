@@ -7,7 +7,7 @@
 _Originally based on a theme by Oscar Hernandez_
 
 This is my personal developer portfolio built using Astro and TailwindCSS.  
-It showcases my projects, skills, and presence as a full-stack developer.
+It showcases my projects, skills, and presence as a full-stack developer. 
 
 ---
 
