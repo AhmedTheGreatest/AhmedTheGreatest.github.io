@@ -1,46 +1,94 @@
 ---
 import { Image } from "astro:assets";
-import web_scraper_api from "../../public/web_scraper_api.jpg";
 import praycraft from "../../public/praycraft.png";
 import socialite from "../../public/socialite.jpg";
+import invoice_studio from "../../public/invoice-studio-2.png";
 import vader_homepage from "../../public/vader_homepage.png";
 
 interface Project {
   title: string;
-  image: ImageMetadata;
-  link: string;
-  preview: string;
+  image?: ImageMetadata;
+  link?: string;
+  preview?: string;
   status: string;
+  technologies: string[];
+  featured?: boolean;
+  theme: string;
+  monogram: string;
 }
 
 const projects: Project[] = [
+  {
+    title: "Pickwise",
+    link: "https://github.com/AhmedTheGreatest/web_scraper",
+    preview: "",
+    status:
+      "A product intelligence API that aggregates product listings from multiple marketplaces, helping users compare products and find better buying options.",
+    technologies: ["Python", "FastAPI", "Web Scraping", "Caching"],
+    theme: "from-blue-950 via-indigo-950 to-slate-950",
+    monogram: "P",
+    featured: true,
+  },
+  {
+    title: "Invoice Studio",
+    link: "",
+    image: invoice_studio as ImageMetadata,
+    preview: "",
+    status:
+      "An AI-powered feature-rich invoicing application designed to streamline invoice creation, customer management, tax and discount calculations, and PDF generation.",
+    technologies: [
+      "Fast API",
+      "AI Integration",
+      "PostgreSQL",
+      "PDF Generation",
+    ],
+    theme: "from-slate-900 via-indigo-950 to-violet-950",
+    monogram: "IS",
+    featured: true,
+  },
+  {
+    title: "HUE",
+    link: "",
+    preview: "",
+    status:
+      "An AI-powered freelancing platform built around requesters and taskers, exploring intelligent task distribution based on task complexity and requirements through a Discord bot interface.",
+    technologies: ["Python", "AI", "Discord Bots", "Task Allocation"],
+    theme: "from-fuchsia-950 via-violet-950 to-slate-950",
+    monogram: "H",
+    featured: true,
+  },
   {
     title: "Socialite",
     image: socialite as ImageMetadata,
     link: "https://github.com/AhmedTheGreatest/socialite",
     preview: "https://socialite-qpr1.onrender.com",
-    status: "A full-stack social media app with posts, likes, comments, and profiles.",
+    status:
+      "A full-stack social media application with user profiles, posts, likes, and comments.",
+    technologies: ["Ruby on Rails", "PostgreSQL", "Devise"],
+    theme: "from-slate-900 to-slate-800",
+    monogram: "S",
   },
   {
     title: "PrayCraft",
     image: praycraft as ImageMetadata,
     link: "",
     preview: "https://praycraft.in",
-    status: "An ecommerce store built using Wordpress and Woocommerce for a client.",
-  },
-  {
-    title: "Product Scraper API",
-    image: web_scraper_api as ImageMetadata,
-    link: "https://github.com/AhmedTheGreatest/web_scraper",
-    preview: "",
-    status: "A FastAPI-powered API that scrapes products from Amazon and Flipkart with real-time updates, caching, and rate-limiting.",
+    status:
+      "An e-commerce store built for a client using WordPress and WooCommerce.",
+    technologies: ["WordPress", "WooCommerce", "E-commerce"],
+    theme: "from-emerald-950 to-slate-900",
+    monogram: "PC",
   },
   {
     title: "Darth Vader Homepage",
     image: vader_homepage as ImageMetadata,
     link: "https://github.com/AhmedTheGreatest/homepage",
     preview: "https://AhmedTheGreatest.github.io/homepage",
-    status: "A Simple responsive homepage for Darth Vader, showcasing HTML and CSS skills.",
+    status:
+      "A responsive themed homepage demonstrating semantic HTML, CSS styling, and responsive design.",
+    technologies: ["HTML", "CSS", "Responsive Design"],
+    theme: "from-slate-950 to-neutral-800",
+    monogram: "DV",
   },
 ];
 ---
@@ -49,88 +97,158 @@ const projects: Project[] = [
   id="projects"
   class="py-12 border-t border-[#ffffff10] text-[var(--white)]"
 >
-  <div class="max-w-5xl mx-auto">
+  <div class="max-w-5xl mx-auto px-4">
     <h2 class="text-lg text-[var(--sec)] mb-2 shiny-sec">My work</h2>
-    <h3 class="text-4xl md:text-5xl font-medium mb-8">Projects</h3>
+    <h3 class="text-4xl md:text-5xl font-medium mb-3">Projects</h3>
+    <p class="text-[var(--white-icon)] mb-8 max-w-2xl">
+      A selection of applications, APIs, and tools I've built.
+    </p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {
-        projects.map((project) => (
-          <div class="group">
-            <a
-              href={project.preview}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="block"
-            >
-              <div class="rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 mb-4">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  class="w-full h-48 md:h-72 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+      {projects.map((project) => (
+        <article class="group min-w-0">
+          <div
+            class={`relative rounded-2xl overflow-hidden shadow-lg mb-4 bg-gradient-to-br ${project.theme}`}
+          >
+            {project.image ? (
+              <div class="overflow-hidden">
+                {project.preview ? (
+                  <a
+                    href={project.preview}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Open ${project.title} live preview`}
+                    class="block"
+                  >
+                    <Image
+                      src={project.image}
+                      alt={`${project.title} project preview`}
+                      class="w-full h-48 md:h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </a>
+                ) : (
+                  <Image
+                    src={project.image}
+                    alt={`${project.title} project preview`}
+                    class="w-full h-48 md:h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                )}
               </div>
-              <div class="flex items-center px-3">
-                <div class="flex-grow">
-                  <h4 class="text-2xl font-semibold">{project.title}</h4>
-                  <span class="py-1 text-sm text-[var(--white-icon)]">
-                    {project.status}
-                  </span>
-                </div>
-                <div class="flex gap-2 ml-auto">
+            ) : (
+              <div
+                class="relative flex h-48 md:h-64 items-center justify-center overflow-hidden"
+                aria-label={`${project.title} placeholder artwork`}
+              >
+                <div
+                  class="absolute w-48 h-48 rounded-full border border-white/10"
+                ></div>
+                <div
+                  class="absolute w-36 h-36 rounded-full border border-white/10"
+                ></div>
+                <div
+                  class="absolute w-24 h-24 rounded-2xl rotate-12 bg-white/5 border border-white/10"
+                ></div>
+                <span
+                  class="relative text-6xl font-semibold tracking-tight text-white/90"
+                >
+                  {project.monogram}
+                </span>
+                <span
+                  class="absolute bottom-5 left-5 text-xs uppercase tracking-[0.25em] text-white/50"
+                >
+                  {project.title}
+                </span>
+              </div>
+            )}
+          </div>
+
+          <div class="px-1">
+            <div class="flex items-start gap-3">
+              <div class="flex-grow min-w-0">
+                <h4 class="text-2xl font-semibold tracking-tight">
+                  {project.title}
+                </h4>
+                <p
+                  class="mt-2 text-sm leading-6 text-[var(--white-icon)]"
+                >
+                  {project.status}
+                </p>
+              </div>
+
+              <div class="flex shrink-0 gap-2">
+                {project.link && (
                   <a
                     target="_blank"
+                    rel="noopener noreferrer"
                     href={project.link}
-                    aria-label="GitHub"
-                    class="size-14 flex justify-center items-center text-[var(--white-icon)] hover:text-white transition duration-300 ease-in-out border border-1 border-[var(--white-icon-tr)] p-3 rounded-xl bg-[#1414149c] hover:bg-[var(--white-icon-tr)]"
+                    aria-label={`${project.title} source code on GitHub`}
+                    title="View source code"
+                    class="size-11 flex items-center justify-center text-[var(--white-icon)] hover:text-white transition border border-[var(--white-icon-tr)] rounded-xl bg-[#1414149c] hover:bg-[var(--white-icon-tr)]"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      class="size-7"
+                      class="size-6"
+                      aria-hidden="true"
                     >
-                      <path d="M24 12L18.3431 17.6569L16.9289 16.2426L21.1716 12L16.9289 7.75736L18.3431 6.34315L24 12ZM2.82843 12L7.07107 16.2426L5.65685 17.6569L0 12L5.65685 6.34315L7.07107 7.75736L2.82843 12ZM9.78845 21H7.66009L14.2116 3H16.3399L9.78845 21Z" />
+                      <path d="M12.001 2C6.47598 2 2.00098 6.475 2.00098 12C2.00098 16.425 4.86348 20.1625 8.83848 21.4875C9.33848 21.575 9.52598 21.275 9.52598 21.0125C9.52598 20.775 9.51348 19.9875 9.51348 19.15C7.00098 19.6125 6.35098 18.5375 6.15098 17.975C6.03848 17.6875 5.55098 16.8 5.12598 16.5625C4.77598 16.375 4.27598 15.9125 5.11348 15.9C5.90098 15.8875 6.46348 16.625 6.65098 16.925C7.55098 18.4375 8.98848 18.0125 9.56348 17.75C9.65098 17.1 9.91348 16.6625 10.201 16.4125C7.97598 16.1625 5.65098 15.3 5.65098 11.475C5.65098 10.3875 6.03848 9.4875 6.67598 8.7875C6.57598 8.5375 6.22598 7.5125 6.77598 6.1375C6.77598 6.1375 7.61348 5.875 9.52598 7.1625C10.326 6.9375 11.176 6.825 12.026 6.825C12.876 6.825 13.726 6.9375 14.526 7.1625C16.4385 5.8625 17.276 6.1375 17.276 6.1375C17.826 7.5125 17.476 8.5375 17.376 8.7875C18.0135 9.4875 18.401 10.375 18.401 11.475C18.401 15.3125 16.0635 16.1625 13.8385 16.4125C14.201 16.725 14.5135 17.325 14.5135 18.2625C14.5135 19.6 14.501 20.675 14.501 21.0125C14.501 21.275 14.6885 21.5875 15.1885 21.4875C19.259 20.1133 21.9999 16.2963 22.001 12C22.001 6.475 17.526 2 12.001 2Z" />
                     </svg>
                   </a>
+                )}
+
+                {project.preview && (
                   <a
                     target="_blank"
+                    rel="noopener noreferrer"
                     href={project.preview}
-                    aria-label="Preview"
-                    class="size-14 flex justify-center items-center text-[var(--white-icon)] hover:text-white transition duration-300 ease-in-out border border-1 border-[var(--white-icon-tr)] p-3 rounded-xl bg-[#1414149c] hover:bg-[var(--white-icon-tr)]"
+                    aria-label={`${project.title} live preview`}
+                    title="Open live preview"
+                    class="size-11 flex items-center justify-center text-[var(--white-icon)] hover:text-white transition border border-[var(--white-icon-tr)] rounded-xl bg-[#1414149c] hover:bg-[var(--white-icon-tr)]"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      class="size-7"
+                      class="size-6"
+                      aria-hidden="true"
                     >
                       <path d="M16.0037 9.41421L7.39712 18.0208L5.98291 16.6066L14.5895 8H7.00373V6H18.0037V17H16.0037V9.41421Z" />
                     </svg>
                   </a>
-                </div>
+                )}
               </div>
-            </a>
+            </div>
+
+            <div class="flex flex-wrap gap-2 mt-4">
+              {project.technologies.map((technology) => (
+                <span
+                  class="px-2.5 py-1 rounded-full border border-white/10 bg-white/[0.04] text-xs text-[var(--white-icon)]"
+                >
+                  {technology}
+                </span>
+              ))}
+            </div>
           </div>
-        ))
-      }
+        </article>
+      ))}
     </div>
+
     <a
       target="_blank"
+      rel="noopener noreferrer"
       href="https://github.com/AhmedTheGreatest?tab=repositories"
-      aria-label="GitHub"
-      class="w-full flex items-center justify-center gap-2 mt-9 text-[var(--white-icon)] hover:text-white transition duration-300 ease-in-out border border-[var(--white-icon-tr)] p-3 rounded-full bg-[#1414149c] hover:bg-[var(--white-icon-tr)] hover:scale-105"
+      class="w-full flex items-center justify-center gap-2 mt-10 text-[var(--white-icon)] hover:text-white transition border border-[var(--white-icon-tr)] p-3 rounded-full bg-[#1414149c] hover:bg-[var(--white-icon-tr)]"
     >
-      <span class="md:text-lg text-md">More projects on</span>
+      <span class="md:text-lg text-md">Explore more projects on GitHub</span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="currentColor"
         class="size-6"
+        aria-hidden="true"
       >
-        <path
-          d="M12.001 2C6.47598 2 2.00098 6.475 2.00098 12C2.00098 16.425 4.86348 20.1625 8.83848 21.4875C9.33848 21.575 9.52598 21.275 9.52598 21.0125C9.52598 20.775 9.51348 19.9875 9.51348 19.15C7.00098 19.6125 6.35098 18.5375 6.15098 17.975C6.03848 17.6875 5.55098 16.8 5.12598 16.5625C4.77598 16.375 4.27598 15.9125 5.11348 15.9C5.90098 15.8875 6.46348 16.625 6.65098 16.925C7.55098 18.4375 8.98848 18.0125 9.56348 17.75C9.65098 17.1 9.91348 16.6625 10.201 16.4125C7.97598 16.1625 5.65098 15.3 5.65098 11.475C5.65098 10.3875 6.03848 9.4875 6.67598 8.7875C6.57598 8.5375 6.22598 7.5125 6.77598 6.1375C6.77598 6.1375 7.61348 5.875 9.52598 7.1625C10.326 6.9375 11.176 6.825 12.026 6.825C12.876 6.825 13.726 6.9375 14.526 7.1625C16.4385 5.8625 17.276 6.1375 17.276 6.1375C17.826 7.5125 17.476 8.5375 17.376 8.7875C18.0135 9.4875 18.401 10.375 18.401 11.475C18.401 15.3125 16.0635 16.1625 13.8385 16.4125C14.201 16.725 14.5135 17.325 14.5135 18.2625C14.5135 19.6 14.501 20.675 14.501 21.0125C14.501 21.275 14.6885 21.5875 15.1885 21.4875C19.259 20.1133 21.9999 16.2963 22.001 12C22.001 6.475 17.526 2 12.001 2Z"
-        ></path>
+        <path d="M12.001 2C6.47598 2 2.00098 6.475 2.00098 12C2.00098 16.425 4.86348 20.1625 8.83848 21.4875C9.33848 21.575 9.52598 21.275 9.52598 21.0125C9.52598 20.775 9.51348 19.9875 9.51348 19.15C7.00098 19.6125 6.35098 18.5375 6.15098 17.975C6.03848 17.6875 5.55098 16.8 5.12598 16.5625C4.77598 16.375 4.27598 15.9125 5.11348 15.9C5.90098 15.8875 6.46348 16.625 6.65098 16.925C7.55098 18.4375 8.98848 18.0125 9.56348 17.75C9.65098 17.1 9.91348 16.6625 10.201 16.4125C7.97598 16.1625 5.65098 15.3 5.65098 11.475C5.65098 10.3875 6.03848 9.4875 6.67598 8.7875C6.57598 8.5375 6.22598 7.5125 6.77598 6.1375C6.77598 6.1375 7.61348 5.875 9.52598 7.1625C10.326 6.9375 11.176 6.825 12.026 6.825C12.876 6.825 13.726 6.9375 14.526 7.1625C16.4385 5.8625 17.276 6.1375 17.276 6.1375C17.826 7.5125 17.476 8.5375 17.376 8.7875C18.0135 9.4875 18.401 10.375 18.401 11.475C18.401 15.3125 16.0635 16.1625 13.8385 16.4125C14.201 16.725 14.5135 17.325 14.5135 17.75C14.5135 19.6 14.501 20.675 14.501 21.0125C14.501 21.275 14.6885 21.5875 15.1885 21.4875C19.259 20.1133 21.9999 16.2963 22.001 12C22.001 6.475 17.526 2 12.001 2Z" />
       </svg>
     </a>
   </div>
